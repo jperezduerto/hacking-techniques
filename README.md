@@ -12,6 +12,7 @@ holds the runnable proof of concept and build notes.
 | Technique | Folder | Article |
 |-----------|--------|---------|
 | SeTcbPrivilege to SYSTEM, then a new local admin | [`tcb-privilege-to-system/`](tcb-privilege-to-system/) | [Read the writeup](https://jperezduerto.info/techniques/tcb-privilege-to-system/) |
+| The Liferay Groovy script console | [`liferay-groovy-console/`](liferay-groovy-console/) | [Read the writeup](https://jperezduerto.info/techniques/liferay-groovy-console/) |
 
 ## Use
 
