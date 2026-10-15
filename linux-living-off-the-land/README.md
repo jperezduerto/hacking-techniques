@@ -70,6 +70,33 @@ A non-standard SUID binary, `cap_setuid` on an ordinary program, a writable
 cron script, a writable `PATH` dir ahead of the real one, a world-writable
 `/etc/passwd`, or a root-equivalent group is usually the escalation.
 
+## From a finding to root: small tricks
+
+Documented but easy to skim past. Each needs a specific finding above; the fix
+line is the point for defenders.
+
+- **sudo keeps `LD_PRELOAD`** (`env_keep += LD_PRELOAD`): a `_init()` shared
+  object preloaded into any allowed command runs as root.
+  `sudo LD_PRELOAD=/tmp/evil.so <allowed-cmd>`. Fix: drop `LD_PRELOAD`/
+  `LD_LIBRARY_PATH` from `env_keep`.
+- **sudo on a GTFOBins binary**: `sudo awk 'BEGIN{system("/bin/sh")}'` (vi,
+  less, find, env, ...). Fix: no sudo on interpreters/pagers/editors.
+- **Writable root cron/script**: append `cp /bin/bash /tmp/rb; chmod 4755
+  /tmp/rb`, then `/tmp/rb -p`. Fix: root-owned, non-writable cron scripts.
+- **PATH hijack on a root job** that calls a bare command: drop a malicious
+  `tar`/`backup` earlier on `PATH`. Fix: absolute paths, no writable PATH dirs.
+- **`cap_setuid`**: `python -c 'import os; os.setuid(0); os.system("/bin/bash -p")'`.
+  Fix: strip capabilities, never on interpreters.
+- **tar wildcard injection** in a root-glob dir: `--checkpoint-action=exec`
+  filenames. Fix: no globbing untrusted dirs in root jobs.
+- **Writable systemd unit/timer**: point ExecStart at your command. Fix:
+  root-owned units, no user-writable ExecStart.
+- **`docker`/`lxd` group**: `docker run -v /:/mnt --rm -it alpine chroot /mnt sh`.
+  Fix: treat these groups as administrator.
+- **Kernel CVEs** (pwnkit `CVE-2021-4034`, dirtypipe `CVE-2022-0847`): match
+  `uname -r` to a maintained public exploit. No exploit code here; detect the
+  artifacts (e.g. `pkexec` spawning a root shell) and patch the range out.
+
 ## Detection
 
 - **auditd** on the recon binaries and sensitive reads:
