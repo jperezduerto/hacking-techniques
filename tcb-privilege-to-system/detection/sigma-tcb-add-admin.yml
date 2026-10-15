@@ -1,0 +1,79 @@
+# Sigma detection for the SeTcbPrivilege -> SYSTEM -> local admin chain.
+# Three rules: two atomic detections and one temporal correlation that ties
+# them together. Tune the paths and allowlist your known-good SYSTEM-context
+# admin management (some installers and config tools legitimately do this).
+
+title: Transient service running a command interpreter
+id: 7c1b2a90-0f3e-4e8a-9b1a-2d6c9f0a1e01
+status: experimental
+description: >
+  A service was installed whose binary path launches a command interpreter or
+  an account-management command, or runs from a temp directory. The SeTcb
+  abuse chain creates a short-lived service like this to run its payload as
+  SYSTEM.
+references:
+  - https://jperezduerto.info/techniques/tcb-privilege-to-system/
+logsource:
+  product: windows
+  service: system
+detection:
+  selection:
+    EventID: 7045
+    ImagePath|contains:
+      - 'cmd.exe /c'
+      - 'cmd /c'
+      - 'net user'
+      - 'net localgroup'
+      - 'powershell'
+      - '\Temp\'
+      - '\Windows\Temp\'
+  condition: selection
+falsepositives:
+  - Legitimate software installers that register a short-lived helper service
+level: high
+tags:
+  - attack.privilege_escalation
+  - attack.t1543.003
+---
+title: Local Administrators member added under the SYSTEM account
+id: 7c1b2a90-0f3e-4e8a-9b1a-2d6c9f0a1e02
+status: experimental
+description: >
+  A member was added to the built-in local Administrators group
+  (SID S-1-5-32-544) by the SYSTEM account (SID S-1-5-18). The SeTcb chain
+  adds its new admin while running as SYSTEM, so this subject context is the
+  tell.
+references:
+  - https://jperezduerto.info/techniques/tcb-privilege-to-system/
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 4732
+    TargetSid: 'S-1-5-32-544'
+    SubjectUserSid: 'S-1-5-18'
+  condition: selection
+falsepositives:
+  - Rare legitimate SYSTEM-context administration (allowlist the known tools)
+level: high
+tags:
+  - attack.persistence
+  - attack.t1098
+---
+title: SeTcbPrivilege service-to-local-admin chain
+id: 7c1b2a90-0f3e-4e8a-9b1a-2d6c9f0a1e03
+status: experimental
+description: >
+  Correlates a suspicious transient service install with a local Administrators
+  addition on the same host inside one minute. Together they describe the full
+  SeTcb elevation chain and are far higher confidence than either alone.
+correlation:
+  type: temporal
+  rules:
+    - 7c1b2a90-0f3e-4e8a-9b1a-2d6c9f0a1e01
+    - 7c1b2a90-0f3e-4e8a-9b1a-2d6c9f0a1e02
+  group-by:
+    - Computer
+  timespan: 1m
+level: critical
