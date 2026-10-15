@@ -18,11 +18,20 @@ applies, and how a defender detects and closes it.
 
 ## Build
 
-From an x64 Native Tools command prompt (MSVC):
+From an x64 Native Tools command prompt (MSVC) on Windows:
 
 ```
 cl /EHsc /W4 TcbElevationAddAdmin.cpp Secur32.lib Advapi32.lib
 ```
+
+Cross-compiling from Linux with MinGW-w64:
+
+```
+x86_64-w64-mingw32-g++ TcbElevationAddAdmin.cpp -o TcbElevationAddAdmin.exe -lsecur32 -ladvapi32
+```
+
+MinGW ships a thinner `sspi.h` than the Windows SDK, so if the SSPI calls fail
+to resolve, build with MSVC instead; it is the reliable path for this one.
 
 ## Usage
 
