@@ -16,6 +16,8 @@ holds the runnable proof of concept and build notes.
 | Living off the land on Linux (local enumeration) | [`linux-living-off-the-land/`](linux-living-off-the-land/) | [Read the writeup](https://jperezduerto.info/techniques/linux-living-off-the-land/) |
 | Windows local privilege escalation | [`windows-local-privesc/`](windows-local-privesc/) | [Read the writeup](https://jperezduerto.info/techniques/windows-local-privesc/) |
 | Linux container escapes | [`linux-container-escapes/`](linux-container-escapes/) | [Read the writeup](https://jperezduerto.info/techniques/linux-container-escapes/) |
+| Windows credential access | [`windows-credential-access/`](windows-credential-access/) | [Read the writeup](https://jperezduerto.info/techniques/windows-credential-access/) |
+| Active Directory: the modern attack surface | [`active-directory-modern-attacks/`](active-directory-modern-attacks/) | [Read the writeup](https://jperezduerto.info/techniques/active-directory-modern-attacks/) |
 
 ## Use
 

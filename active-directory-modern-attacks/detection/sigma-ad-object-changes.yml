@@ -1,0 +1,77 @@
+# Sigma detection for the highest-signal modern-AD directory changes, via
+# Security event 5136 (directory service object modified). Requires directory
+# change auditing on the relevant object classes. Tune to your environment and
+# allowlist legitimate administrative tooling.
+
+title: Shadow credential written (msDS-KeyCredentialLink)
+id: b1c2d3e4-0001-4a2b-8c3d-aa0000000001
+status: experimental
+description: >
+  A write to msDS-KeyCredentialLink adds a key credential that enables PKINIT
+  authentication as the target. Legitimate on Windows Hello for Business
+  enrollment; suspicious on servers, service accounts, or privileged objects.
+references:
+  - https://jperezduerto.info/techniques/active-directory-modern-attacks/
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 5136
+    AttributeLDAPDisplayName: 'msDS-KeyCredentialLink'
+  condition: selection
+falsepositives:
+  - Windows Hello for Business enrollment on user workstations (allowlist)
+level: high
+tags:
+  - attack.credential_access
+  - attack.persistence
+---
+title: RBCD delegation attribute written
+id: b1c2d3e4-0001-4a2b-8c3d-aa0000000002
+status: experimental
+description: >
+  A write to msDS-AllowedToActOnBehalfOfOtherIdentity configures resource-based
+  constrained delegation on a computer object, a common escalation when it rides
+  on an ACL finding.
+references:
+  - https://jperezduerto.info/techniques/active-directory-modern-attacks/
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID: 5136
+    AttributeLDAPDisplayName: 'msDS-AllowedToActOnBehalfOfOtherIdentity'
+  condition: selection
+falsepositives:
+  - Legitimate delegation changes by server administrators (allowlist)
+level: high
+tags:
+  - attack.privilege_escalation
+  - attack.t1098
+---
+title: Certificate issued by AD CS
+id: b1c2d3e4-0001-4a2b-8c3d-aa0000000003
+status: experimental
+description: >
+  A certificate was issued (CA events 4886 request / 4887 issued). Baseline
+  normal templates and requesters; alert on enrollment for authentication
+  templates by accounts or hosts that never normally enroll.
+references:
+  - https://jperezduerto.info/techniques/active-directory-modern-attacks/
+logsource:
+  product: windows
+  service: security
+detection:
+  selection:
+    EventID:
+      - 4886
+      - 4887
+  condition: selection
+falsepositives:
+  - Routine enrollment; this rule is a baseline feed, tune per template
+level: medium
+tags:
+  - attack.credential_access
+  - attack.persistence
