@@ -1,0 +1,43 @@
+title: Active Directory Replication (DCSync) From Non-DC Principal
+id: 6c3f2b1a-7d84-4e2a-9b11-dcsync-nondc-0001
+status: experimental
+description: >
+  Detects a directory replication request for secret attributes (DCSync) made by
+  a principal that is not a domain controller. Legitimate replication of the
+  DS-Replication-Get-Changes-All right comes from DC machine accounts and a small
+  set of sync services; anything else requesting it is suspicious. MITRE T1003.006.
+references:
+  - https://jperezduerto.info/techniques/dcsync-replication-abuse/
+  - https://attack.mitre.org/techniques/T1003/006/
+  - https://learn.microsoft.com/en-us/openspecs/windows_protocols/ms-drsr/
+author: JP (jperezduerto.info)
+date: 2026/10/15
+tags:
+  - attack.credential_access
+  - attack.t1003.006
+logsource:
+  product: windows
+  service: security
+  definition: >
+    Requires Advanced Audit Policy "Directory Service Access" enabled on domain
+    controllers AND a SACL on the domain object auditing the replication control
+    access rights. Event 4662 for these GUIDs is not logged by default.
+detection:
+  selection:
+    EventID: 4662
+    AccessMask: '0x100'   # Control Access
+    Properties|contains:
+      - '1131f6aa-9c07-11d1-f79f-00c04fc2dcd2'   # DS-Replication-Get-Changes
+      - '1131f6ad-9c07-11d1-f79f-00c04fc2dcd2'   # DS-Replication-Get-Changes-All
+  filter_dc_machine_accounts:
+    SubjectUserName|endswith: '$'   # tune: restrict to your actual DC computer accounts
+  filter_sync_services:
+    SubjectUserName|startswith:
+      - 'MSOL_'        # Azure AD Connect
+    # add SCCM / other legitimate replication identities here
+  condition: selection and not (filter_dc_machine_accounts or filter_sync_services)
+falsepositives:
+  - Domain controllers (must be whitelisted explicitly by their computer accounts)
+  - Azure AD Connect (MSOL_* account) and other directory sync tooling
+  - Backup or monitoring products that legitimately read replication metadata
+level: high
