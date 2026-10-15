@@ -14,6 +14,7 @@ holds the runnable proof of concept and build notes.
 | SeTcbPrivilege to SYSTEM, then a new local admin | [`tcb-privilege-to-system/`](tcb-privilege-to-system/) | [Read the writeup](https://jperezduerto.info/techniques/tcb-privilege-to-system/) |
 | The Liferay Groovy script console | [`liferay-groovy-console/`](liferay-groovy-console/) | [Read the writeup](https://jperezduerto.info/techniques/liferay-groovy-console/) |
 | Living off the land on Linux (local enumeration) | [`linux-living-off-the-land/`](linux-living-off-the-land/) | [Read the writeup](https://jperezduerto.info/techniques/linux-living-off-the-land/) |
+| Windows local privilege escalation | [`windows-local-privesc/`](windows-local-privesc/) | [Read the writeup](https://jperezduerto.info/techniques/windows-local-privesc/) |
 
 ## Use
 
