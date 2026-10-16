@@ -18,6 +18,7 @@ holds the runnable proof of concept and build notes.
 | Linux container escapes | [`linux-container-escapes/`](linux-container-escapes/) | [Read the writeup](https://jperezduerto.info/techniques/linux-container-escapes/) |
 | Windows credential access | [`windows-credential-access/`](windows-credential-access/) | [Read the writeup](https://jperezduerto.info/techniques/windows-credential-access/) |
 | Active Directory: the modern attack surface | [`active-directory-modern-attacks/`](active-directory-modern-attacks/) | [Read the writeup](https://jperezduerto.info/techniques/active-directory-modern-attacks/) |
+| systemd confinement gotchas (post-exploitation) | [`systemd-confinement-gotchas/`](systemd-confinement-gotchas/) | [Read the writeup](https://jperezduerto.info/techniques/systemd-confinement-gotchas/) |
 
 ## Use
 
