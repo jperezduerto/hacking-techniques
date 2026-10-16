@@ -24,6 +24,7 @@ holds the runnable proof of concept and build notes.
 | Auth-surface asymmetry (credentials in plain sight) | [`auth-surface-asymmetry/`](auth-surface-asymmetry/) | [Read the writeup](https://jperezduerto.info/techniques/auth-surface-asymmetry/) |
 | Chrome remote-debugging session theft | [`chrome-remote-debug-session-theft/`](chrome-remote-debug-session-theft/) | [Read the writeup](https://jperezduerto.info/techniques/chrome-remote-debug-session-theft/) |
 | disable_functions is config, not a wall (PHP) | [`php-disable-functions-ini-bypass/`](php-disable-functions-ini-bypass/) | [Read the writeup](https://jperezduerto.info/techniques/php-disable-functions-ini-bypass/) |
+| ASP.NET ViewState RCE from a leaked machineKey | [`aspnet-viewstate-machinekey-rce/`](aspnet-viewstate-machinekey-rce/) | [Read the writeup](https://jperezduerto.info/techniques/aspnet-viewstate-machinekey-rce/) |
 
 ## Use
 
