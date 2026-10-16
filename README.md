@@ -29,6 +29,7 @@ holds the runnable proof of concept and build notes.
 | Loot in backups, connection managers, keyrings | [`credential-stores-backups-connection-managers/`](credential-stores-backups-connection-managers/) | [Read the writeup](https://jperezduerto.info/techniques/credential-stores-backups-connection-managers/) |
 | SSH tunneling (-L/-R/-D) + tunnelctl helper | [`ssh-tunneling/`](ssh-tunneling/) | [Read the writeup](https://jperezduerto.info/techniques/ssh-tunneling/) |
 | Ligolo-ng pivoting (L3 userland VPN) + ligoloctl helper | [`ligolo-ng-pivoting/`](ligolo-ng-pivoting/) | [Read the writeup](https://jperezduerto.info/techniques/ligolo-ng-pivoting/) |
+| Registry hive credential dumping (SAM/SYSTEM/SECURITY) + hivekit | [`offline-registry-hive-dumping/`](offline-registry-hive-dumping/) | [Read the writeup](https://jperezduerto.info/techniques/offline-registry-hive-dumping/) |
 
 ## Use
 
