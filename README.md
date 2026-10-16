@@ -20,6 +20,7 @@ holds the runnable proof of concept and build notes.
 | Active Directory: the modern attack surface | [`active-directory-modern-attacks/`](active-directory-modern-attacks/) | [Read the writeup](https://jperezduerto.info/techniques/active-directory-modern-attacks/) |
 | systemd confinement gotchas (post-exploitation) | [`systemd-confinement-gotchas/`](systemd-confinement-gotchas/) | [Read the writeup](https://jperezduerto.info/techniques/systemd-confinement-gotchas/) |
 | Unpickling is still RCE (deserialization) | [`pickle-deserialization-rce/`](pickle-deserialization-rce/) | [Read the writeup](https://jperezduerto.info/techniques/pickle-deserialization-rce/) |
+| The curl dot-dot trap (path-traversal false negatives) | [`curl-path-traversal-false-negative/`](curl-path-traversal-false-negative/) | [Read the writeup](https://jperezduerto.info/techniques/curl-path-traversal-false-negative/) |
 
 ## Use
 
