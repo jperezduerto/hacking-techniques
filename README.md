@@ -21,6 +21,7 @@ holds the runnable proof of concept and build notes.
 | systemd confinement gotchas (post-exploitation) | [`systemd-confinement-gotchas/`](systemd-confinement-gotchas/) | [Read the writeup](https://jperezduerto.info/techniques/systemd-confinement-gotchas/) |
 | Unpickling is still RCE (deserialization) | [`pickle-deserialization-rce/`](pickle-deserialization-rce/) | [Read the writeup](https://jperezduerto.info/techniques/pickle-deserialization-rce/) |
 | The curl dot-dot trap (path-traversal false negatives) | [`curl-path-traversal-false-negative/`](curl-path-traversal-false-negative/) | [Read the writeup](https://jperezduerto.info/techniques/curl-path-traversal-false-negative/) |
+| Auth-surface asymmetry (credentials in plain sight) | [`auth-surface-asymmetry/`](auth-surface-asymmetry/) | [Read the writeup](https://jperezduerto.info/techniques/auth-surface-asymmetry/) |
 
 ## Use
 
