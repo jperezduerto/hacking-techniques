@@ -19,6 +19,7 @@ holds the runnable proof of concept and build notes.
 | Windows credential access | [`windows-credential-access/`](windows-credential-access/) | [Read the writeup](https://jperezduerto.info/techniques/windows-credential-access/) |
 | Active Directory: the modern attack surface | [`active-directory-modern-attacks/`](active-directory-modern-attacks/) | [Read the writeup](https://jperezduerto.info/techniques/active-directory-modern-attacks/) |
 | systemd confinement gotchas (post-exploitation) | [`systemd-confinement-gotchas/`](systemd-confinement-gotchas/) | [Read the writeup](https://jperezduerto.info/techniques/systemd-confinement-gotchas/) |
+| Unpickling is still RCE (deserialization) | [`pickle-deserialization-rce/`](pickle-deserialization-rce/) | [Read the writeup](https://jperezduerto.info/techniques/pickle-deserialization-rce/) |
 
 ## Use
 
