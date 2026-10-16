@@ -23,6 +23,7 @@ holds the runnable proof of concept and build notes.
 | The curl dot-dot trap (path-traversal false negatives) | [`curl-path-traversal-false-negative/`](curl-path-traversal-false-negative/) | [Read the writeup](https://jperezduerto.info/techniques/curl-path-traversal-false-negative/) |
 | Auth-surface asymmetry (credentials in plain sight) | [`auth-surface-asymmetry/`](auth-surface-asymmetry/) | [Read the writeup](https://jperezduerto.info/techniques/auth-surface-asymmetry/) |
 | Chrome remote-debugging session theft | [`chrome-remote-debug-session-theft/`](chrome-remote-debug-session-theft/) | [Read the writeup](https://jperezduerto.info/techniques/chrome-remote-debug-session-theft/) |
+| disable_functions is config, not a wall (PHP) | [`php-disable-functions-ini-bypass/`](php-disable-functions-ini-bypass/) | [Read the writeup](https://jperezduerto.info/techniques/php-disable-functions-ini-bypass/) |
 
 ## Use
 
